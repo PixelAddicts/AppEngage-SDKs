@@ -1,0 +1,219 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1138\cocoasubrtf470
+{\fonttbl\f0\fnil\fcharset0 Monaco;\f1\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;\red0\green128\blue128;\red63\green127\blue127;\red127\green0\blue127;
+\red42\green0\blue255;\red0\green0\blue192;\red127\green0\blue85;\red100\green100\blue100;\red38\green38\blue38;
+\red242\green242\blue242;\red255\green0\blue0;\red127\green159\blue191;\red63\green95\blue191;\red127\green127\blue159;
+}
+\margl1440\margr1440\vieww16300\viewh13140\viewkind0
+\deftab720
+\pard\pardeftab720
+
+\f0\fs22 \cf0 1. Add nGageANE to the projects Native Extensions (remember to check the box for nGageANE for the platform(s) on which you are developing)\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab720\pardirnatural
+
+\f1\fs24 \cf0 2. In your apps Manifest file add the lines inside the 
+\f0\fs22 \cf2 <\cf3 application> 
+\f1\fs24 \cf0 tag:\
+ 
+\f0\fs22 \cf2 <\cf3 application 
+\f1\fs24 \cf0 \'85
+\f0\fs22 \cf3 >
+\f1\fs24 \cf0 \
+\pard\pardeftab720
+
+\f0\fs22 \cf0 	
+\f1\fs24 \'85\
+\
+
+\f0\fs22 	 \cf2 <\cf3 service\cf0  \cf4 android:name\cf0 =\cf5 "org.openudid.OpenUDID_service"\cf2 >\cf0 \
+			 \cf2 <\cf3 intent-filter\cf2 >\cf0 \
+				\cf2 <\cf3 action\cf0  \cf4 android:name\cf0 =\cf5 "org.openudid.GETUDID"\cf2 />\cf0 \
+			\cf2 </\cf3 intent-filter\cf2 >\cf0 \
+	\cf2 </\cf3 service\cf2 >\
+
+\f1\fs24 \cf0 \
+
+\f0\fs22       \cf2 <\cf3 activity\cf0  \cf4 android:screenOrientation\cf0 =\cf5 "sensorLandscape"\cf0  \cf4 android:configChanges\cf0 =\cf5 "keyboardHidden|orientation"\cf0  \cf4 android:name\cf0 =\cf5 "com.tinidream.ngage.nGageActivity"\cf2 />\cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab720\pardirnatural
+
+\f1\fs24 \cf0 	\'85\
+\pard\pardeftab720
+
+\f0\fs22 \cf2 </\cf3 application\cf2 >
+\f1\fs24 \cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab720\pardirnatural\qc
+\cf0 \
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab720\pardirnatural
+\cf0 Also in the Manifest, add attribute 
+\f0\fs22 \cf4 android:launchMode\cf0 =\cf5 "singleTask" 
+\f1\fs24 \cf0 to your apps starting activity tag. \
+For example, you will have something like 
+\f0\fs22 \cf2 <\cf3 activity\cf5  \cf4 android:name\cf0 =\cf5 "com.company.appname.startingActivity" \'85 \cf4 android:launchMode\cf0 =\cf5 "singleTask"\cf2 />
+\f1\fs24 \cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab720\pardirnatural\qc
+\cf0 \
+\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab720\pardirnatural\qc
+
+\fs28 \cf0 nGage SDK Code Integration
+\fs24 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab720\pardirnatural
+\cf0 \
+In your apps Activity class onCreate function add:\
+1. (Optional) Make an Activity instance variable of the nGage object.\
+	\
+	
+\f0\fs22 \cf6 ngage\cf0 =nGage.getInstance(); // You can also choose to use \cf6 nGage.getInstance()\cf0  to make all SDK calls instead\cf6 .\cf0 \
+\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab720\li420\fi-420\pardirnatural
+\cf0 2. 
+\f1\fs24 Call the SDK onCreate function with a reference to your apps Activity and your apps nGage SDK Key. You can find your SDK Key on the nGage web portal once you have setup a company account and created an App.
+\f0\fs22 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab720\pardirnatural
+\cf0 \
+	\cf6 ngage\cf0 .onCreate(\cf6 this\cf0 , \cf5 "<Your apps nGage SDK Key"\cf0 );\
+
+\f1\fs24 \
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab720\li420\fi-420\pardirnatural
+\cf0 3.   When your application exits, call function 
+\f0\fs22 \cf6 ngage\cf0 .onDestroy
+\f1\fs24 (). Our recommended placement is in your app's Activity onDestroy function but anywhere will do as long as it is when the app exits. \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab720\pardirnatural
+\cf0 \
+	
+\f0\fs22 \cf6 ngage\cf0 .onDestroy(); \
+\
+\
+4. To show the nGage achievements dialog call:\
+	\
+	\cf6 ngage\cf0 .showAchievements();\
+\
+\
+\
+\pard\pardeftab720
+\cf0 \
+\pard\pardeftab720\qc
+
+\fs28 \cf0 Completing Actions
+\fs22 \
+\pard\pardeftab720
+\cf0 \
+To complete an action add the below line when the action requirements are completed in your app. Pass the action type as the parameter: \
+\pard\pardeftab720
+\cf6 	\
+	ngage\cf0 .completeAction(<actionID>);\
+\
+If you app requires a value like High Score as part of the actions requirements then call:\
+\
+\cf6 	ngage\cf0 .completeAction(<actionID>,value);\
+\
+The <actionID> type is a String that is assigned to an action when creating a campaign on the web portal. Make sure your Silver and Gold actions types are different in a campaign.\
+\
+\
+nGage Actions (Defined in \ul nGageActions\ulnone  class):\
+\
+LevelUp	: Should be called each time your user levels up\
+Win		: Should be called each time your user wins\
+Play		: Should be called each time your user plays a round\
+Buy		: Should be called each time your user buys an item\
+Use		: Should be called each time your user uses an item\
+Share		: Should be called each time your user shares on a social network\
+\
+\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab720\pardirnatural
+\cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab720\pardirnatural\qc
+
+\fs28 \cf0 Receiving Rewards\
+
+\fs22 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab720\pardirnatural
+\cf0 1. 
+\f1\fs24 In your apps Activity 
+\f0\fs22 onResume
+\f1\fs24  function add:\
+\
+	
+\f0\fs22 \cf6 ngage\cf0 .getPendingRewards(); //Calls the server to check for rewards when the app resumes.  \
+\
+\
+2. Add an event listener in the class which you want to handle rewards.  Also you must implement a method to \
+   handle this event.\
+\
+\pard\pardeftab720
+\cf7 	\cf6 ngage\cf0 .getPendingRewards.addEventListener(nGageANEEvent.REWARD, <YOUR_EVENT_HANDLER_METHOD>);\
+\
+\pard\pardeftab720\li700\fi-700
+\cf0 	The nGageANEEvent passed to <YOUR_EVENT_HANDLER_METHOD> contains a property "reward" which is the reward amount and \cf8 "\cf0 server_token" your server confirmation token. \cf8 "\cf0 server_token" is optional in case you wish to server verify rewards.\
+\pard\pardeftab720
+\cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab720\pardirnatural\qc
+
+\fs28 \cf0 \
+\
+Optional Currency Verification
+\fs22 \
+\pard\pardeftab720
+\cf0 \
+\pard\pardeftab720
+\cf9 Publishers are able to verify currency claims by making a call to the following URL:\
+\pard\pardeftab720
+\cf9 \cb10 	http://engage.pxladdicts.com/engage/verifycurrencyclaimtoken/token/\cf11 TOKEN_FROM_SDK\cf9 \
+\pard\pardeftab720
+\cf9 \cb1 	Parameters:\
+\pard\pardeftab720
+\cf11 	TOKEN_FROM_SDK\cf9  - token is provided by the client-side SDK on every /engage/getpendingrewards call\
+\
+Response:\
+	The API call returns JSON in the following format:\
+\pard\pardeftab720
+\cf9 \cb10 	\{"result": \{"token_verified": \cf11 0 or 1, i.e. is the token valid\cf9 , "claimed": \cf11 0 or 1, i.e. has the token been claimed before\cf9 , currency_amount":\cf11 AMOUNT_OF_CURRENCY_AS_AN_INTEGER\cf9 \}\}\
+\pard\pardeftab720
+\cf9 \cb1 \
+To prevent fraud, you should give currency to the user only server-side, and only when token_verified is 1 and claimed is 0\
+\pard\pardeftab720
+\cf0 \
+\
+\
+\
+\
+\pard\pardeftab720\qc
+
+\fs28 \cf0 Interstitials\
+
+\fs22 \
+\pard\pardeftab720\li680\fi-680
+\cf0 1.	We have incentivized and non-incentivized interstitials. You can also customize the header text. Simply pass to the show call a string you wish to show with the ad.\
+\pard\pardeftab720
+\cf0 \
+	Non-Incentivized Intersticial: \cf6 ngage.\cf0 showInterstitial() or \cf6 ngage.\cf0 showInterstitial("Custom Header");\
+\
+	Incentivized Intersticial: \cf6 ngage.\cf0 showIncentedInterstitial();\
+\
+\
+\pard\pardeftab720\li680\fi-680
+\cf0 2. 	If you've setup the Receive Rewards section above then you are ready to receive rewards from incentivized interstitial also. \
+\pard\pardeftab720
+\cf0 \
+\pard\pardeftab720\li700\fi-700
+\cf0 3. 	You can optionally setup a callback for informational purposes. To do so implement nGageInterstitialListener with callback function:\
+\pard\pardeftab720
+\cf7 	\
+	void\cf0  nGageInterstitial(\cf7 boolean\cf0  displayed, String errorCode); \cf7 \
+\pard\pardeftab720\li660\fi-660
+\cf12 	@param\cf13  displayed \cf14 -\cf13  If true then the ad was shown and errorCode will be null. If false then no inventory was available or some other server error occurred.\cf0 \
+\pard\pardeftab720
+\cf13 	 \cf12 @param\cf13  errorCode \cf14 -\cf13  errorCode returns a server code prompt for debugging.\
+\
+\pard\pardeftab720\li720\fi-720
+\cf0 4.	You can optionally call \cf6 ngage.\cf0 onBackPressed() which will close the interstitial if it's open. It also returns true if the interstitial was open and was closed successfully. If it returns false the interstitial was not showing and you can process the back key normally for your app. \
+\pard\pardeftab720
+\cf0 \
+\
+}
