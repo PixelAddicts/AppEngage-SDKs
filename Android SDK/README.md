@@ -117,14 +117,24 @@ nGage.getInstance().showInterstitial();
 If you've setup the Receive Rewards section above then you are ready to receive rewards from incentivized interstitial also. 
 
 ###Interstitial Fill Callback
+
 You can optionally setup a callback for informational purposes. To do so implement **nGageInterstitialListener** with callback function.
+
+Pass the class instance implementing 'nGageInterstitialListener' to 'setInterstitialListener':
 ```Java
-void nGageInterstitial(boolean displayed, String errorCode); 
-	@param displayed - If true then the ad was shown and errorCode will be null. If false then no inventory was available or some other server error occurred.
-	@param errorCode - errorCode returns a server code prompt for debugging.
+nGage.getInstance().setInterstitialListener(<classInstance>);
+```
+Then create the callback function 'nGageInterstitial':
+
+```Java
+@Override
+void nGageInterstitial(boolean displayed, String errorCode){
+	//param displayed - If true then the ad was shown and errorCode will be null. If false then no inventory was available or some other server error occurred.
+	//param errorCode - errorCode returns a server code prompt for debugging.
+}
 ```
 
-If you would like to set the device kack key to close the interstitial you can optionally call: 
+If you would like to set the device back key to close the interstitial you can optionally call: 
 
 ```Java
 nGage.getInstance().onBackPressed()
