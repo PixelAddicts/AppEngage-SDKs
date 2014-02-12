@@ -1,3 +1,6 @@
+##Prerequisites
+Clone this repo or [download here](https://github.com/PixelAddicts/AppEngage-SDKs/archive/master.zip)
+
 ##Setup the ANE nGage SDK
 
 1. Add nGageANE to the projects Native Extensions (remember to check the box for nGageANE for the platform(s) on which you are developing)
