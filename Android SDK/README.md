@@ -1,3 +1,7 @@
+##Prerequisites
+Clone this repo or [download here](https://github.com/PixelAddicts/AppEngage-SDKs/archive/master.zip)
+
+
 ##Starting up the Android nGage SDK
 
 1. Get the the latest SDK and extract the zip. Here you will find:
