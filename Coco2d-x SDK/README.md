@@ -6,11 +6,10 @@ Clone this repo or [download here](https://github.com/PixelAddicts/AppEngage-SDK
 
 The clone of the repo for Cocos2d-x SDK includes:
 
-	nGageX.cpp/h - Coco2D-x JNI nGage wrapper. 
+	nGageX.cpp/h - Coco2D-x JNI nGage wrapper
 	nGageHelper.java - The java JNI nGage wrapper that connects to nGageX.cpp/h
-	nGageSDK_Vxxx.zip - Latest Android nGage SDK which includes:
-		nGage- Android nGage SDK project
-		SampleApp - Sample SDK project 
+	nGageSDK_Vxxx.zip - Latest Android nGage SDK
+	
 
 ##Starting up the Cocos2d-x Android nGage SDK
 
@@ -34,12 +33,11 @@ Note: Make sure the nGage project has a Target Android Version of 3.2 or higher.
       <activity android:screenOrientation="sensorLandscape" android:configChanges="keyboardHidden|orientation" android:name="com.tinidream.ngage.nGageActivity"/>
 	…
 </application>
-```
-
-Also in the Manifest, add attribute ```android:launchMode="singleTask"``` to your apps starting activity tag. 
+``` 
+4. Also in the Manifest, add attribute ```android:launchMode="singleTask"``` to your apps starting activity tag. 
 For example, you will have something like ```<activity android:name="com.company.appname.startingActivity" … android:launchMode="singleTask"/>```
 
-4. Let add the Java JNI wrapper. Copy the nGageHelper.java to your Coco2D-x "proj.android/src" folder. Open you activity class and add ```nGageHelper.setActivity(this);``` as described below.
+5. Let add the Java JNI wrapper. Copy the nGageHelper.java to your Coco2D-x "proj.android/src" folder. Open you activity class and add ```nGageHelper.setActivity(this);``` as described below.
 ```Java
 	//public static Cocos2dxActivity activity;
 	protected void onCreate(Bundle savedInstanceState){
@@ -48,9 +46,9 @@ For example, you will have something like ```<activity android:name="com.company
 	}
 ```
 
-5. Copy ```nGageHelper``` to your Android projects src folder. Same folder as the Activity class file.
+6. Copy ```nGageHelper``` to your Android projects src folder. Same folder as the Activity class file.
 
-6. Now let add the Coco JNI wrapper classes. Copy the nGage.cpp and .h wrapper files to you Coco2D-x project. 
+7. Now let add the Coco JNI wrapper classes. Copy the nGage.cpp and .h wrapper files to you Coco2D-x project. 
 
 
 ##nGage Coco2D-x SDK Code Integration
@@ -61,7 +59,7 @@ In your Coco2D-x ```AppDelegate.cpp``` class function ```applicationDidFinishLau
  nGageX::startnGageSession("<Your apps nGage SDK Key");
 ```
 
-When your application exits, call function ngage.onDestroy(). Any location will do as long as it is the last call before the app exits. 
+When your application exits, call function **nGageX::onDestroy();**. Any location will do as long as it is the last call before the app exits. 
 ```Java
 nGageX::onDestroy(); 
 ```
@@ -100,20 +98,21 @@ You can also create custom action types on the campaign editor.
 
 ##Rewarding Users (Optional)
 Don't forget to reward your users with their virtual currency!
-In your apps Activity **onResume** function add the following code.
+Where your apps resumes from an interupt add the following code.
 
 ```Java
 //Calls the server to check for rewards when the app resumes. The placement of this code is crucial to keep your users happy!
 nGageX::getPendingRewards();
 ```
 
-Implement the nGageXDelegate to the class you wish to receive your callback on.
+Create an **nGageXDelegate** instance in the class you wish to receive reward callbacks.
 ```Java
- nGageXDelegate *callbackReward;
+ nGageXDelegate *callbackReward; //in your h file
 ```
 
-Pass that class instance to 'setInterstitialDelegate':
+Pass that class instance to **setDelegate**:
 ```Java
+  callbackReward=new nGageXDelegate();
   nGageX::setDelegate(callbackReward);
 ```
 
@@ -124,40 +123,46 @@ void nGageXDelegate::onReceivenGageReward(int reward,const char* currency_claim_
   	CCLog("You've received a reward of %d", reward);
   	CCLog("Your server confirmation token is %s", currency_claim_token);
   }
+}
 ```
 
 ##Interstitials
 If you'd like to show an interstitial call:  
 
 ```Java
-nGage.getInstance().showInterstitial();
+nGageX::showInterstitial()
 ```
 If you've setup the Receive Rewards section above then you are ready to receive rewards from incentivized interstitial also. 
 
 ###Interstitial Fill Callback
 
-You can optionally setup a callback for informational purposes. To do so implement **nGageInterstitialListener** with callback function.
+You can optionally setup a callback for informational purposes. To do so implement **nGageXInterstitialDelegate** with callback function.
 
-Pass the class instance implementing 'nGageInterstitialListener' to 'setInterstitialListener':
+Create an **nGageXInterstitialDelegate** instance in the class you wish to receive intersticial callbacks.
 ```Java
-nGage.getInstance().setInterstitialListener(<classInstance>);
-```
-Then create the callback function 'nGageInterstitial':
-
-```Java
-@Override
-void nGageInterstitial(boolean displayed, String errorCode){
-	//param displayed - If true then the ad was shown and errorCode will be null. If false then no inventory was available or some other server error occurred.
-	//param errorCode - errorCode returns a server code prompt for debugging.
-}
+nGageXInterstitialDelegate *callbackInterstitial;
 ```
 
-If you would like to set the device back key to close the interstitial you can optionally call: 
+Pass that class instance to **setInterstitialDelegate**:
+```Java
+ callbackInterstitial=new nGageXInterstitialDelegate();
+ nGageX::setInterstitialDelegate(callbackInterstitial);
+```
+
+Add the callback function to reward your user:
+```Java
+ void nGageXInterstitialDelegate::onReceiveInterstitialInfo(bool displayed,const char* errorCode){
+ 	CCLog("Did the interstitial display? %d", displayed);
+	CCLog("Was there an an error code? %s", errorCode);
+ }
+```
+
+If you would like to set the device back key to close the interstitial you can optionally call function: 
 
 ```Java
-nGage.getInstance().onBackPressed()
+ nGageX::onBackPressed();
 ```
-which will close the interstitial if it's open. It also returns true if the interstitial was open and was closed successfully. If it returns false the interstitial was not showing and you can process the back key normally for your app. 
+It will close the interstitial if it's open. It also returns true if the interstitial was open and was closed successfully. If it returns false the interstitial was not showing and you can process the back key normally for your app. 
 
 ##Proguard (optional)
 If you are using proguard add the following lines to your proguard.cfg file: 
@@ -167,5 +172,3 @@ If you are using proguard add the following lines to your proguard.cfg file:
 -keep class com.tinidream.** {*;}
 ```
 
-##Sample App
-If you have any issues take a look at how the SampleApp works. If you still having issues contact your representative with specific questions and we will be happy to help. 
