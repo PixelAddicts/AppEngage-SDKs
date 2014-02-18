@@ -13,13 +13,14 @@ The clone of the repo for Cocos2d-x SDK includes:
 
 ##Starting up the Cocos2d-x Android nGage SDK
 
-1. Lets start by setting up the Android side of the Android nGageSDK project library. Unzip the Android nGageSDK_Vxxx.zip. 
+1 - Lets start by setting up the Android side of the Android nGageSDK project library. Unzip the Android nGageSDK_Vxxx.zip. 
 
-2. Add the nGage SDK to your project. Since Android does not allow packing resources directly into a library file you must add the nGage Android project. In eclipse, Import 'nGage' project from the SDK zip file. Go to your apps Project Properties and select Android menu item on left. On the right you will see a 'Library' section. Select the 'Add' button and find the android project 'nGage'. 
+2 - Add the nGage SDK to your project. Since Android does not allow packing resources directly into a library file you must add the nGage Android project. In eclipse, Import 'nGage' project from the SDK zip file. Go to your apps Project Properties and select Android menu item on left. On the right you will see a 'Library' section. Select the 'Add' button and find the android project 'nGage'. 
 
-Note: Make sure the nGage project has a Target Android Version of 3.2 or higher. Minimum Android version can be as low as 2.1.
 
-3. In your apps Manifest file add the lines inside the <application> tag:
+
+3 - In your apps Manifest file add the lines inside the <application> tag:
+
 ```Java
  <application …>
 	…
@@ -34,10 +35,14 @@ Note: Make sure the nGage project has a Target Android Version of 3.2 or higher.
 	…
 </application>
 ``` 
-4. Also in the Manifest, add attribute ```android:launchMode="singleTask"``` to your apps starting activity tag. 
-For example, you will have something like ```<activity android:name="com.company.appname.startingActivity" … android:launchMode="singleTask"/>```
 
-5. Let add the Java JNI wrapper. Copy the nGageHelper.java to your Coco2D-x "proj.android/src" folder. Open you activity class and add ```nGageHelper.setActivity(this);``` as described below.
+4 - Also in the Manifest, add attribute ```android:launchMode="singleTask"``` to your apps starting activity tag. 
+For example, you will have something like ```<activity android:name="com.company.appname.startingActivity" … android:launchMode="singleTask"/>```
+```
+Note: Make sure the nGage project has a Target Android Version of 3.2 or higher. Minimum Android version can be as low as 2.1.
+```
+
+5 - Let add the Java JNI wrapper. Copy the nGageHelper.java to your Coco2D-x "proj.android/src" folder. Open you activity class and add ```nGageHelper.setActivity(this);``` as described below.
 ```Java
 	//public static Cocos2dxActivity activity;
 	protected void onCreate(Bundle savedInstanceState){
@@ -46,9 +51,10 @@ For example, you will have something like ```<activity android:name="com.company
 	}
 ```
 
-6. Copy ```nGageHelper``` to your Android projects src folder. Same folder as the Activity class file.
+6 - Copy ```nGageHelper``` to your Android projects src folder. Same folder as the Activity class file.
 
-7. Now let add the Coco JNI wrapper classes. Copy the nGage.cpp and .h wrapper files to you Coco2D-x project. 
+7 - Now let add the Coco JNI wrapper classes. Copy the nGage.cpp and .h wrapper files to you Coco2D-x project. 
+
 
 
 ##nGage Coco2D-x SDK Code Integration
