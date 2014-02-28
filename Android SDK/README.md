@@ -63,21 +63,17 @@ To complete an action add the below line when the action requirements are comple
 nGage.getInstance().completeAction("THE_ACTION");
 ```
 
-If you app requires a value like High Score as part of the actions requirements then call:
-```Java
-nGage.getInstance().completeAction(<actionID>,<the_value>);
-```	
 	
 Built in Engagement Actions:
 
 | Action        | Description   |
 | ------------- |:------------- |
-| LevelUp      | Called each time your user levels up |
-| Win      | Called each time your user wins      |
-| Play |  Called each time your user plays a round      |
-| Buy | Called each time your user buys an item      |
-| Use | Called each time your user uses an item (i.e. power up)     |
-| Share | Called each time your user shares on a social network     |
+| "LevelUp"     | Called each time your user levels up |
+| "Win"      | Called each time your user wins      |
+| "Play" |  Called each time your user plays a round      |
+| "Buy" | Called each time your user buys an item      |
+| "Use" | Called each time your user uses an item (i.e. power up)     |
+| "Share" | Called each time your user shares on a social network     |
 
 You can also create custom action types on the campaign editor.
 
