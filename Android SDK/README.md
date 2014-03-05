@@ -35,13 +35,59 @@ Clone this repo or [download here](https://github.com/PixelAddicts/AppEngage-SDK
 Also in the Manifest, add attribute ```android:launchMode="singleTask"``` to your apps starting activity tag. 
 For example, you will have something like ```<activity android:name="com.company.appname.startingActivity" … android:launchMode="singleTask"/>```
 
-
-##nGage SDK Code Integration
-
-Call the **onCreate** function with your app's Activity and your app's AppEngage API Key. You can find your SDK Key on the our dashboard once you have setup a company account and created an app.
+4. Call the **onCreate** function with your app's Activity and your app's AppEngage API Key. You can find your SDK Key on the our dashboard once you have setup a company account and created an app.
 
 ```Java
 nGage.getInstance().onCreate(this, "YOUR_APP_API_KEY");
+```
+
+##Setting up your device for testing 
+
+Before you begin, make sure your application is set up correctly on the AppEngage dashboard at engage.pxladdicts.com.
+1.	Add your test device’s ID to the list of test devices on the AppEngage dashboard. 
+
+2.	To get your device ID:
+
+	a.	Run the sample app which displays the Device ID. 
+	
+	b.	Or you can download the following app https://play.google.com/store/apps/details?id=com.evozi.deviceid
+  	
+  	WARNING: If you use the wrong ID or don’t enter it correctly in the dashboard, the dialogs won't display correctly.
+3.	Run the sample app, you should be able to see how the appengage dialog and the interstitial look.
+
+
+##How to integrate the AppEngage Dialog, Actions and Rewarding 
+
+If you are integrating/showing the AppEngage dialog, complete the following steps:
+
+1.	Setup App and Campaign in Dashboard.
+
+	a.	Make sure that your app and campaign actions are set up in the dashboard correctly at engage.pxladdicts.com.
+	
+2.	Show the AppEngage dialog in your app.
+
+3.	Mark your engagement actions complete.
+
+4.	Reward users when they claim their rewards.
+
+5.	(optional) virtual currency verification.
+
+More details on these steps follow:
+
+####STEP 1 DETAILS: Set up App and Campaign on Dashbaord.
+Your app’s publishing status should be set to live, and you should have created an engagement campaign.  The engagement campaign should have at least one silver action (For example: Play 1 Hand)
+
+####STEP 2 DETAILS: Show the AppEngage dialog in your app and call onDestroy.
+You should show the dialog from at least two places in your app:
+
+     i.  When the user starts the app. We recommend after your own promotional windows.
+     
+     ii. From a button in your app’s store, or wherever you have free virtual currency available.
+
+
+To show the nGage achievements dialog call:
+```Java
+nGage.getInstance().showAchievements();
 ```
 
 When your application exits, call function ngage.onDestroy(). Our recommended placement is in your app's Activity onDestroy function but anywhere will do as long as it is when the app exits. 
@@ -49,14 +95,7 @@ When your application exits, call function ngage.onDestroy(). Our recommended pl
 nGage.getInstance().onDestroy();
 ```
 
-##Showing AppEngage Dialog
-```Java
-nGage.getInstance().showAchievements();
-```
-
-##Completing Engagement Actions (Optional)
-If you are planning on publishing/advertising using the AppEngage Dialog, you will need to setup and complete engagement actions which you setup in our dashboard.  
-
+####STEP 3 DETAILS: Completing Actions.
 To complete an action add the below line when the action requirements are completed in your app. Pass the action type as the parameter.
 
 ```Java
@@ -77,9 +116,8 @@ Built in Engagement Actions:
 
 You can also create custom action types on the campaign editor.
 
-##Rewarding Users (Optional)
-Don't forget to reward your users with their virtual currency!
-In your apps Activity **onResume** function add the following code.
+####STEP 4 DETAILS: Receiving Rewards
+Don't forget to reward your users with their virtual currency. In your apps Activity **onResume** function add the following code.
 
 ```Java
 //Calls the server to check for rewards when the app resumes. The placement of this code is crucial to keep your users happy!
@@ -107,16 +145,38 @@ Add the callback function to reward your user:
 	  
   }
 ```
+####Step 5 DETAILS: (Optional) Server Currency Verification
+Publishers are able to verify currency claims by making a call to the following URL:
+	http://engage.pxladdicts.com/engage/verifycurrencyclaimtoken/token/TOKEN_FROM_SDK
+	Parameters:
+	TOKEN_FROM_SDK - token is provided by the client-side SDK on every /engage/getpendingrewards call
 
-##Interstitials
-If you'd like to show an interstitial call:  
+Response:
+	The API call returns JSON in the following format:
+	{"result": {"token_verified": 0 or 1, i.e. is the token valid, "claimed": 0 or 1, i.e. has the token been claimed before, currency_amount":AMOUNT_OF_CURRENCY_AS_AN_INTEGER}}
 
+To prevent fraud, you should give currency to the user only server-side, and only when token_verified is 1 and claimed is 0
+
+
+
+
+##Showing Interstitials
+
+1.	We have incentivized and non-incentivized interstitials. 
+
+For Non-incentivized call:
 ```Java
 nGage.getInstance().showInterstitial();
 ```
+
+For Incentivized call:
+```Java
+nGage.getInstance().showIncentedInterstitial();
+```
+
 If you've setup the Receive Rewards section above then you are ready to receive rewards from incentivized interstitial also. 
 
-###Interstitial Fill Callback
+####(Optional) Interstitial Fill Callback 
 
 You can optionally setup a callback for informational purposes. To do so implement **nGageInterstitialListener** with callback function.
 
@@ -133,6 +193,7 @@ void nGageInterstitial(boolean displayed, String errorCode){
 	//param errorCode - errorCode returns a server code prompt for debugging.
 }
 ```
+####(Optional) Interstitial Close By Device Back Key
 
 If you would like to set the device back key to close the interstitial you can optionally call: 
 
@@ -141,7 +202,7 @@ nGage.getInstance().onBackPressed()
 ```
 which will close the interstitial if it's open. It also returns true if the interstitial was open and was closed successfully. If it returns false the interstitial was not showing and you can process the back key normally for your app. 
 
-##Proguard (optional)
+##(Optional) Proguard 
 If you are using proguard add the following lines to your proguard.cfg file: 
 
 ```Java
