@@ -44,11 +44,11 @@ nGage.getInstance().onCreate(this, "YOUR_APP_API_KEY");
 ##Setting up your device for testing 
 
 Before you begin, make sure your application is set up correctly on the AppEngage dashboard at engage.pxladdicts.com.
-1.	Add your test device’s ID to the list of test devices on the AppEngage dashboard. 
+1.	Add your test device’s Android ID to the list of test devices on the AppEngage dashboard. 
 
-2.	To get your device ID:
+2.	To get your Android ID:
 
-	a.	Run the sample app which displays the Device ID. 
+	a.	Run the sample app which displays the Android ID. 
 	
 	b.	Or you can download the following app https://play.google.com/store/apps/details?id=com.evozi.deviceid
   	
@@ -66,18 +66,20 @@ If you are integrating/showing the AppEngage dialog, complete the following step
 	
 2.	Show the AppEngage dialog in your app.
 
-3.	Mark your engagement actions complete.
+3.	Call the AppEngage onDestroy function.
 
-4.	Reward users when they claim their rewards.
+4.	Mark your engagement actions complete.
 
-5.	(optional) virtual currency verification.
+5.	Reward users when they claim their rewards.
+
+6.	(optional) virtual currency verification.
 
 More details on these steps follow:
 
 ####STEP 1 DETAILS: Set up App and Campaign on Dashbaord.
 Your app’s publishing status should be set to live, and you should have created an engagement campaign.  The engagement campaign should have at least one silver action (For example: Play 1 Hand)
 
-####STEP 2 DETAILS: Show the AppEngage dialog in your app and call onDestroy.
+####STEP 2 DETAILS: Show the AppEngage dialog in your app.
 You should show the dialog from at least two places in your app:
 
      i.  When the user starts the app. We recommend after your own promotional windows.
@@ -90,12 +92,13 @@ To show the nGage achievements dialog call:
 nGage.getInstance().showAchievements();
 ```
 
+####STEP 3 DETAILS: Call the AppEngage onDestroy function.
 When your application exits, call function ngage.onDestroy(). Our recommended placement is in your app's Activity onDestroy function but anywhere will do as long as it is when the app exits. 
 ```Java
 nGage.getInstance().onDestroy();
 ```
 
-####STEP 3 DETAILS: Completing Actions.
+####STEP 4 DETAILS: Completing Actions.
 To complete an action add the below line when the action requirements are completed in your app. Pass the action type as the parameter.
 
 ```Java
@@ -116,7 +119,7 @@ Built in Engagement Actions:
 
 You can also create custom action types on the campaign editor.
 
-####STEP 4 DETAILS: Receiving Rewards
+####STEP 5 DETAILS: Receiving Rewards
 Don't forget to reward your users with their virtual currency. In your apps Activity **onResume** function add the following code.
 
 ```Java
@@ -145,7 +148,7 @@ Add the callback function to reward your user:
 	  
   }
 ```
-####Step 5 DETAILS: (Optional) Server Currency Verification
+####Step 6 DETAILS: (Optional) Server Currency Verification
 Publishers are able to verify currency claims by making a call to the following URL:
 	http://engage.pxladdicts.com/engage/verifycurrencyclaimtoken/token/TOKEN_FROM_SDK
 	Parameters:
