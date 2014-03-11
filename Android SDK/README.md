@@ -29,13 +29,11 @@ Clone this repo or [download here](https://github.com/PixelAddicts/AppEngage-SDK
       <activity android:screenOrientation="sensorLandscape" android:configChanges="keyboardHidden|orientation" android:name="com.tinidream.ngage.nGageActivity"/>
 	…
 </application>
-```
-
-
+``` 
 Also in the Manifest, add attribute ```android:launchMode="singleTask"``` to your apps starting activity tag. 
-For example, you will have something like ```<activity android:name="com.company.appname.startingActivity" … android:launchMode="singleTask"/>```
+For example, you will have something like ```<activity android:name="com.company.appname.startingActivity" … 	android:launchMode="singleTask"/>```
 
-4. Call the **onCreate** function with your app's Activity and your app's AppEngage API Key. You can find your SDK Key on the our dashboard once you have setup a company account and created an app.
+`4. Call the **onCreate** function with your app's Activity and your app's AppEngage API Key. You can find your SDK Key on the our dashboard once you have setup a company account and created an app.
 
 ```Java
 nGage.getInstance().onCreate(this, "YOUR_APP_API_KEY");
