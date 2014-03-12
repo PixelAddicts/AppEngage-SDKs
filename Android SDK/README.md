@@ -91,7 +91,7 @@ nGage.getInstance().showAchievements();
 ```
 
 ####STEP 3 DETAILS: Call the AppEngage onDestroy function.
-When your application exits, call function ngage.onDestroy(). Our recommended placement is in your app's Activity onDestroy function but anywhere will do as long as it is when the app exits. 
+When your application exits, call function **onDestroy()**. Our recommended placement is in your app's Activity onDestroy function but anywhere will do as long as it is when the app exits. 
 ```Java
 nGage.getInstance().onDestroy();
 ```
@@ -163,7 +163,7 @@ To prevent fraud, you should give currency to the user only server-side, and onl
 
 ##Showing Interstitials
 
-1.	We have incentivized and non-incentivized interstitials. 
+We have incentivized and non-incentivized interstitials. 
 
 For Non-incentivized call:
 ```Java
