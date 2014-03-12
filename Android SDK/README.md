@@ -210,5 +210,3 @@ If you are using proguard add the following lines to your proguard.cfg file:
 -keep class com.tinidream.** {*;}
 ```
 
-##Sample App
-If you have any issues take a look at how the SampleApp works. If you still having issues contact your representative with specific questions and we will be happy to help. 
