@@ -1,26 +1,24 @@
-Cocos2d-x SDK
-==============
-
 ##Prerequisites
 Clone this repo or [download here](https://github.com/PixelAddicts/AppEngage-SDKs/archive/master.zip)
 
-The clone of the repo for Cocos2d-x SDK includes:
+##Starting up the Cocos2d-x SDK AppEngage SDK
+
+-1. Get the the latest SDK and extract the zip. Here you will find:
 
 	nGageX.cpp/h - Coco2D-x JNI nGage wrapper
 	nGageHelper.java - The java JNI nGage wrapper that connects to nGageX.cpp/h
 	nGageSDK_Vxxx.zip - Latest Android nGage SDK
 	
 
-##Starting up the Cocos2d-x Android nGage SDK
+ 
 
-1 - Lets start by setting up the Android side of the Android nGageSDK project library. Unzip the Android nGageSDK_Vxxx.zip. 
+-2. Lets setup the Android side of the Android nGageSDK project library. Unzip the Android nGageSDK_Vxxx.zip. 
 
-2 - Add the nGage SDK to your project. Since Android does not allow packing resources directly into a library file you must add the nGage Android project. In eclipse, Import 'nGage' project from the SDK zip file. Go to your apps Project Properties and select Android menu item on left. On the right you will see a 'Library' section. Select the 'Add' button and find the android project 'nGage'. 
+-3. Add the nGage SDK to your project. Since Android does not allow packing resources directly into a library file you must add the nGage Android project. In eclipse, Import 'nGage' project from the SDK zip file. Go to your apps Project Properties and select Android menu item on left. On the right you will see a 'Library' section. Select the 'Add' button and find the android project 'nGage'. 
 
 
 
-3 - In your apps Manifest file add the lines inside the <application> tag:
-
+-4. In your apps Manifest file add the lines inside the <application> tag:
 ```Java
  <application …>
 	…
@@ -36,13 +34,13 @@ The clone of the repo for Cocos2d-x SDK includes:
 </application>
 ``` 
 
-4 - Also in the Manifest, add attribute ```android:launchMode="singleTask"``` to your apps starting activity tag. 
+-5. Also in the Manifest, add attribute ```android:launchMode="singleTask"``` to your apps starting activity tag. 
 For example, you will have something like ```<activity android:name="com.company.appname.startingActivity" … android:launchMode="singleTask"/>```
 ```
 Note: Make sure the nGage project has a Target Android Version of 3.2 or higher. Minimum Android version can be as low as 2.1.
 ```
 
-5 - Let add the Java JNI wrapper. Copy the nGageHelper.java to your Coco2D-x "proj.android/src" folder. Open you activity class and add ```nGageHelper.setActivity(this);``` as described below.
+-6. Let add the Java JNI wrapper. Copy the nGageHelper.java to your Coco2D-x "proj.android/src" folder. Open you activity class and add ```nGageHelper.setActivity(this);``` as described below.
 ```Java
 	//public static Cocos2dxActivity activity;
 	protected void onCreate(Bundle savedInstanceState){
@@ -51,13 +49,13 @@ Note: Make sure the nGage project has a Target Android Version of 3.2 or higher.
 	}
 ```
 
-6 - Copy ```nGageHelper``` to your Android projects src folder. Same folder as the Activity class file.
+-7. Copy ```nGageHelper``` to your Android projects src folder. Same folder as the Activity class file.
 
-7 - Now let add the Coco JNI wrapper classes. Copy the nGage.cpp and .h wrapper files to you Coco2D-x project. 
+-8. Now let add the Coco JNI wrapper classes. Copy the nGage.cpp and .h wrapper files to you Coco2D-x project. 
 
 
 
-##nGage Coco2D-x SDK Code Integration
+##Initializing AppEngage Coco2D-x SDK 
 
 In your Coco2D-x ```AppDelegate.cpp``` class function ```applicationDidFinishLaunching``` call  **startnGageSession**  and pass it your app's AppEngage API Key. You can find your SDK Key on the our dashboard once you have setup a company account and created an app.
 
@@ -65,29 +63,67 @@ In your Coco2D-x ```AppDelegate.cpp``` class function ```applicationDidFinishLau
  nGageX::startnGageSession("<Your apps nGage SDK Key");
 ```
 
+##Setting up your device for testing 
+
+Before you begin, make sure your application is set up correctly on the AppEngage dashboard at engage.pxladdicts.com. Add your test device’s Android ID to the list of test devices on the AppEngage dashboard. 
+
+2.	To get your Android ID:
+
+	a.	Run the sample app which displays the Android ID. 
+	
+	b.	Or you can download the following app https://play.google.com/store/apps/details?id=com.evozi.deviceid
+  	
+  	WARNING: If you use the wrong ID or don’t enter it correctly in the dashboard, the dialogs won't display correctly.
+3.	Run the sample app, you should be able to see how the appengage dialog and the interstitial look.
+
+
+##How to integrate the AppEngage Dialog, Actions and Rewarding 
+
+If you are integrating/showing the AppEngage dialog, complete the following steps:
+
+1.	Setup App and Campaign in Dashboard.
+
+	a.	Make sure that your app and campaign actions are set up in the dashboard correctly at engage.pxladdicts.com.
+	
+2.	Show the AppEngage dialog in your app.
+
+3.	Call the AppEngage onDestroy function.
+
+4.	Mark your engagement actions complete.
+
+5.	Reward users when they claim their rewards.
+
+6.	(optional) virtual currency verification.
+
+More details on these steps follow:
+
+####STEP 1 DETAILS: Set up App and Campaign on Dashbaord.
+Your app’s publishing status should be set to live, and you should have created an engagement campaign.  The engagement campaign should have at least one silver action (For example: Play 1 Hand)
+
+####STEP 2 DETAILS: Show the AppEngage dialog in your app.
+You should show the dialog from at least two places in your app:
+
+     i.  When the user starts the app. We recommend after your own promotional windows.
+     
+     ii. From a button in your app’s store, or wherever you have free virtual currency available.
+
+
+To show the nGage achievements dialog call:
+```Java
+nGageX::showAchievementsDialog();
+```
+####STEP 3 DETAILS: Call the AppEngage onDestroy function.
 When your application exits, call function **nGageX::onDestroy();**. Any location will do as long as it is the last call before the app exits. 
 ```Java
 nGageX::onDestroy(); 
 ```
 
-##Showing AppEngage Dialog
-```Java
-nGageX::showAchievementsDialog();
-```
-
-##Completing Engagement Actions (Optional)
-If you are planning on publishing/advertising using the AppEngage Dialog, you will need to setup and complete engagement actions which you setup in our dashboard.  
-
+####STEP 4 DETAILS: Completing Actions.
 To complete an action add the below line when the action requirements are completed in your app. Pass the action type as the parameter.
 
 ```Java
 nGageX::completeAction(<actionID>);
 ```
-
-If you app requires a value like High Score as part of the actions requirements then call:
-```Java
-nGageX::completeAction(<actionID>,<the value>);
-```	
 	
 Built in Engagement Actions:
 
@@ -102,9 +138,9 @@ Built in Engagement Actions:
 
 You can also create custom action types on the campaign editor.
 
-##Rewarding Users (Optional)
-Don't forget to reward your users with their virtual currency!
-Where your apps resumes from an interupt add the following code.
+
+####STEP 5 DETAILS: Receiving Rewards
+Don't forget to reward your users with their virtual currency. In your apps Activity **onResume** function add the following code.
 
 ```Java
 //Calls the server to check for rewards when the app resumes. The placement of this code is crucial to keep your users happy!
@@ -132,15 +168,38 @@ void nGageXDelegate::onReceivenGageReward(int reward,const char* currency_claim_
 }
 ```
 
-##Interstitials
-If you'd like to show an interstitial call:  
+####Step 6 DETAILS: (Optional) Server Currency Verification
+Publishers are able to verify currency claims by making a call to the following URL:
+	http://engage.pxladdicts.com/engage/verifycurrencyclaimtoken/token/TOKEN_FROM_SDK
+	Parameters:
+	TOKEN_FROM_SDK - token is provided by the client-side SDK on every /engage/getpendingrewards call
 
+Response:
+	The API call returns JSON in the following format:
+	{"result": {"token_verified": 0 or 1, i.e. is the token valid, "claimed": 0 or 1, i.e. has the token been claimed before, currency_amount":AMOUNT_OF_CURRENCY_AS_AN_INTEGER}}
+
+To prevent fraud, you should give currency to the user only server-side, and only when token_verified is 1 and claimed is 0
+
+
+
+
+##Showing Interstitials
+
+We have incentivized and non-incentivized interstitials. 
+
+For Non-incentivized call:
 ```Java
 nGageX::showInterstitial()
 ```
+
+For Incentivized call:
+```Java
+nGageX::showIncentedInterstitial();
+```
+
 If you've setup the Receive Rewards section above then you are ready to receive rewards from incentivized interstitial also. 
 
-###Interstitial Fill Callback
+####(Optional) Interstitial Fill Callback 
 
 You can optionally setup a callback for informational purposes. To do so implement **nGageXInterstitialDelegate** with callback function.
 
@@ -155,7 +214,7 @@ Pass that class instance to **setInterstitialDelegate**:
  nGageX::setInterstitialDelegate(callbackInterstitial);
 ```
 
-Add the callback function to reward your user:
+Add the callback function:
 ```Java
  void nGageXInterstitialDelegate::onReceiveInterstitialInfo(bool displayed,const char* errorCode){
  	CCLog("Did the interstitial display? %d", displayed);
@@ -163,12 +222,14 @@ Add the callback function to reward your user:
  }
 ```
 
-If you would like to set the device back key to close the interstitial you can optionally call function: 
+####(Optional) Interstitial Close By Device Back Key
+
+If you would like to set the device back key to close the interstitial you can optionally call:
 
 ```Java
  nGageX::onBackPressed();
 ```
-It will close the interstitial if it's open. It also returns true if the interstitial was open and was closed successfully. If it returns false the interstitial was not showing and you can process the back key normally for your app. 
+which will close the interstitial if it's open. It also returns true if the interstitial was open and was closed successfully. If it returns false the interstitial was not showing and you can process the back key normally for your app.  
 
 ##Proguard (optional)
 If you are using proguard add the following lines to your proguard.cfg file: 
