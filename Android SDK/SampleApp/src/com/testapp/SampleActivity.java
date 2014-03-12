@@ -1,7 +1,6 @@
 package com.testapp;
 
-import org.OpenUDID.OpenUDID_manager;
-
+ 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -26,6 +25,8 @@ public class SampleActivity extends Activity implements nGageListener,nGageInter
 	MyView myview;
 	 
 	Activity activity;
+	String AppEngageAppKey="<Your AppEngage SDK App Key>";
+	String ngageMessage="";
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -40,15 +41,15 @@ public class SampleActivity extends Activity implements nGageListener,nGageInter
     							 | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON   
     			);
     	
-    	OpenUDID_manager.sync(getApplicationContext());
+    	
     	
 		layout = new RelativeLayout(getApplicationContext());
-		myview=new MyView(activity);
-		
+		myview=new MyView(this);
+	 
 		
 		ngage=nGage.getInstance();
 		
-		ngage.onCreate(activity, "<Your nGage SDK App Key>");
+		ngage.onCreate(activity, AppEngageAppKey);
   
 		ngage.setRewardListener(this); // Setup callback to receive rewards
 		
@@ -58,6 +59,8 @@ public class SampleActivity extends Activity implements nGageListener,nGageInter
 		setContentView(layout);
 
 	}
+	
+	
  
 	/**
 	 * onDestroy - clear static variables and ensure nGage data is refreshed upon next launch
@@ -86,8 +89,10 @@ public class SampleActivity extends Activity implements nGageListener,nGageInter
 	@Override
 	public void nGageReward(int reward, String currency_claim_token) {
 		// Callback from getPendingRewards call
-		if (reward>0)
+		if (reward>0){
+			ngageMessage="Received reward="+reward+". Server confirmation token="+ currency_claim_token;
 			Log.w("nGage", "You've received a reward of "+reward+". Your server confirmation token is "+ currency_claim_token);
+		}
 	}
 	
 	
@@ -148,7 +153,8 @@ public class SampleActivity extends Activity implements nGageListener,nGageInter
 
 	@Override
 	public void nGageInterstitial(boolean displayed, String errorCode) {
-		Log.w("nGage", "Intersticial displayed="+displayed+". Debug errorCodes="+errorCode);
+		ngageMessage="Intersticial displayed="+displayed+". Server Code="+errorCode+".";
+		Log.w("nGage", ngageMessage);
 		
 	}	 
 	
@@ -171,5 +177,7 @@ public class SampleActivity extends Activity implements nGageListener,nGageInter
 		}
 		
 	}
+	
+	 
 
 }
